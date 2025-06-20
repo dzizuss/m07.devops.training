@@ -1,5 +1,7 @@
-.terraform
-.terraform.lock.hcl
-terraform.tfstate
-terraform.tfstate.backup
-*.docx
+__pycache__/
+*.pyc
+dist/
+build/
+venv/
+*.egg-info/
+
