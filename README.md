@@ -6,4 +6,5 @@
 
 Each folder contains an exercise. Do them in the following order:
 
-- `1-monitoring`
+- `1-monitor-kubernetes`
+- `2-monitor-app`
