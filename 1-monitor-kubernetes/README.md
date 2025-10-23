@@ -2,7 +2,7 @@
 
 Design and run a monitoring stack for a single-node k3s lab cluster. By the end of the exercise you will have Prometheus scraping Kubernetes control-plane and node metrics, and Grafana dashboards visualizing cluster health.
 
-## Learning goals
+## Learning goalsd
 
 - Deploy Prometheus and Grafana on k3s using upstream Helm charts
 - Collect node resource metrics (CPU, memory, filesystem) and core Kubernetes metrics (APIServer, kubelet, scheduler, etc.)
