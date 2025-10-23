@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: metrics-app-config
+  namespace: monitoring
+data:
+  PYTHONUNBUFFERED: "1"
+  METRICS_RANDOM_DELAY_MAX_SECONDS: "1"

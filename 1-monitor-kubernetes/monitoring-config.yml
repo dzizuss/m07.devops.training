@@ -1,0 +1,8 @@
+grafana:
+  adminPassword: admin
+  service:
+    type: ClusterIP
+    port: 3000
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false

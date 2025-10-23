@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metrics-app
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: metrics-app
+  template:
+    metadata:
+      labels:
+        app: metrics-app
+    spec:
+      containers:
+        - name: metrics-app
+          image: DOCKERHUB_USERNAME/metrics-app:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+              name: http
+          envFrom:
+            - configMapRef:
+                name: metrics-app-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: metrics-app
+  namespace: monitoring
+spec:
+  selector:
+    app: metrics-app
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
