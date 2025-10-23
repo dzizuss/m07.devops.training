@@ -13,4 +13,4 @@ blocks:
             - checkout
             - k create ns jesus-christ
       secrets:
-        - name: localstack
+        - name: kubeconfig
