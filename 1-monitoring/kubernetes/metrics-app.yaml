@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metrics-app
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: metrics-app
+  template:
+    metadata:
+      labels:
+        app: metrics-app
+    spec:
+      containers:
+        - name: metrics-app
+          image: python:3.11-slim
+          command:
+            - sh
+            - -c
+            - pip install prometheus_client && python /app/metrics_app.py
+          ports:
+            - containerPort: 8000
+              name: http
+          volumeMounts:
+            - name: app-source
+              mountPath: /app
+      volumes:
+        - name: app-source
+          configMap:
+            name: metrics-app-script
+            items:
+              - key: metrics_app.py
+                path: metrics_app.py
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: metrics-app
+  namespace: monitoring
+spec:
+  selector:
+    app: metrics-app
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
