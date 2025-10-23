@@ -14,35 +14,48 @@ Everything is installed in the `monitoring` namespace.
 
 ## Prerequisites
 
-- A running k3s (or any Kubernetes) cluster with `kubectl` already pointing to it.
-- Cluster nodes need outbound internet access so the Python container can install `prometheus_client` at startup.
+- Select a namespace for your team
+- Select port numbers for your team:
+  - Prometheus: 9090 or 9091
+  - Grafana: 30040 or 30080
+
+Open `kubernetes/grafana.yml` and change the port number to your teams number. Commit the file.
 
 ## Step-by-step
 
-1. Inspect `kubernetes/` to understand how the components are wired together. Notice how ConfigMaps are used to pass both the Prometheus scrape configuration and the Python metrics script into the cluster.
-2. Apply the manifests:
+Create a pipeline with the following blocks:
+
+1. Build image: Build a Docker Image and upload it to Docker Hub
+
+1. **Deploy monitoring**
+
+- Create namespace
+- Switch to namespace
 
    ```bash
    kubectl apply -k kubernetes
    ```
 
-3. Watch for everything to become ready:
+- Wait for rollout to complete
 
-   ```bash
-   kubectl get pods -n monitoring
-   ```
+## Configure Prometheus
 
-   Wait until all pods show `STATUS` `Running` or `Completed`.
+From your machine, run the following commands:
 
-4. Port-forward Prometheus so you can reach it from your laptop:
+If your team uses port 9090
 
    ```bash
    kubectl port-forward svc/prometheus -n monitoring 9090:9090
    ```
 
-5. Open http://localhost:9090 to confirm the Prometheus UI is running and that the `metrics_app` target is up (Status ➝ Targets).
-6. Reach Grafana via the NodePort service exposed on your node(s): `http://<node-ip>:30040`. On single-node k3s installs running locally, `<node-ip>` is often `127.0.0.1`. Log in with `admin`/`admin`, and create a new dashboard panel. Use the Prometheus data source that is already configured and run a query such as `rate(request_processing_seconds_sum[1m])` to see the synthetic load produced by the metrics app.
-7. Once you are done exploring dashboards, clean everything up with:
+Open <http://localhost:9090> to confirm the Prometheus UI is running and that the `metrics_app` target is up (Status ➝ Targets).
+
+## Configure Grafana
+
+Reach Grafana via the NodePort service exposed on your node(s): `http://devops.tomfern.com:30040`.
+Create a new dashboard panel. Use the Prometheus data source that is already configured and run a query such as `rate(request_processing_seconds_sum[1m])` to see the synthetic load produced by the metrics app.
+
+Once you are done exploring dashboards, clean everything up with:
 
    ```bash
    kubectl delete -k kubernetes
