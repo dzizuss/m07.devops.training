@@ -16,6 +16,6 @@ blocks:
             - helm repo update
             - cd 1-monitor-kubernetes
             - ls -la
-            - helm install monitoring prometheus-community/kube-prometheus-stack --values monitoring-config.yaml
+            - helm install monitoring prometheus-community/kube-prometheus-stack --values monitoring-config.yml
       secrets:
         - name: kubeconfig
