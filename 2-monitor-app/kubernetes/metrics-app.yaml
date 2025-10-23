@@ -15,24 +15,14 @@ spec:
     spec:
       containers:
         - name: metrics-app
-          image: python:3.11-slim
-          command:
-            - sh
-            - -c
-            - pip install prometheus_client && python /app/metrics_app.py
+          image: DOCKERHUB_USERNAME/metrics-app:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
               name: http
-          volumeMounts:
-            - name: app-source
-              mountPath: /app
-      volumes:
-        - name: app-source
-          configMap:
-            name: metrics-app-script
-            items:
-              - key: metrics_app.py
-                path: metrics_app.py
+          envFrom:
+            - configMapRef:
+                name: metrics-app-config
 ---
 apiVersion: v1
 kind: Service

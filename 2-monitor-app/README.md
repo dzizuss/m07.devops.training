@@ -25,9 +25,11 @@ Open `kubernetes/grafana.yml` and change the port number to your teams number. C
 
 Create a pipeline with the following blocks:
 
-1. Build image: Build a Docker Image and upload it to Docker Hub
+1. Build image: Build a Docker Image and upload it to Docker Hub (remember to replace the DOCKERHUB_USERNAME in the app manifest located in the kubernetes directory)
 
-1. **Deploy monitoring**
+2. Deploy image to Kubernetes
+
+3. **Deploy monitoring**
 
 - Create namespace
 - Switch to namespace
