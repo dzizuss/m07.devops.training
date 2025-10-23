@@ -11,6 +11,10 @@ blocks:
         - name: 'Job #1'
           commands:
             - checkout
-            - kubectl create ns jesus-christ
+            - kubectl create ns jesus-christ || true
+            - 'helm repo add prometheus-community https://prometheus-community.github.io/helm-charts'
+            - helm repo update
+            - cd 1-monitor-kubernetes
+            - helm install monitoring prometheus-community/kube-prometheus-stack --values monitoring-config.yaml
       secrets:
         - name: kubeconfig
